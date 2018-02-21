@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
+        "App\Struttura"=>"App\Policies\StrutturaPolicy",
     ];
 
     /**
@@ -24,7 +25,12 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
+        Gate::define('see-group-dashboard', function ($user) {
+            return $user->admin ==1;
+        });
+        Gate::define('edit-property', function ($user) {
+            return $user->admin ==1;
+        });
         //
     }
 }
